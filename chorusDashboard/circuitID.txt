@@ -1,0 +1,38 @@
+# TEST
+1661_IRU
+ASID
+AC1
+B3a
+BS2
+BS3
+Bitstream3:
+CAE
+CLK
+DFAS
+# DFAS:
+# DFAS1
+DFP
+ENCPLB
+ENFXN
+ETN
+FCID
+FCL
+Flute
+FSID
+FXO
+HSNS:
+IDA
+INS
+POL1
+POL:
+UFFCPLH
+UFFFX
+UNL
+VCC
+WLFC
+WC1
+# Did not use EUBA and VDSL due to it being to common and returning many non CIDs
+EUBA1
+EUBA:1
+VDSL:1
+VDSL1

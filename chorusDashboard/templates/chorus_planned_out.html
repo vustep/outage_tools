@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<!-- Libraries -->
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script src="https://unpkg.com/moment"></script>
+<script type="text/javascript" src="/static/bcralnit.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="/static/bootstrap.min.css" rel="stylesheet">
+<link href="/static/jquery-ui.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/tabulator/3.4.2/css/tabulator.min.css" rel="stylesheet">
+
+<meta charset="UTF-8">
+<title>Chorus Planned</title>
+<div class="topnav">
+   <a href="/chorus_unplanned">Chorus Unplanned</a>
+   <a href="/cid_filter">CID Filter</a>
+   <a class="active" href="/chorus_planned">Chorus Planned</a>
+</div>
+
+<!-- Top Menu Bar CSS -->
+<style>
+.topnav {
+  overflow: hidden;
+  background-color: #383838;
+}
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 1.1% 1.25%; /*14px 16px*/
+  text-decoration: none;
+  font-size: 17px;
+}
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+.topnav a.active {
+  background-color: #4CAF50;
+  color: white;
+}
+</style>
+
+<!-- Body CSS -->
+<style>
+  body {
+    margin: 0;
+    padding-bottom: 100px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size:14px;
+}
+</style>
+<style>
+.active {
+  background-color: #4CAF50;
+}
+</style>
+</head>
+
+<!----------------- BODY -------------------->
+<body style="background-color:#E0E0E0;">
+
+<!-- Textarea + Div CSS */ -->
+<style>
+.textAreaColumn{
+    width:100%;
+}
+.textAreaColumn div{
+    float:left;
+    width:66.6%; /*49.7*/
+    /*padding:15px; /*7px*/
+    padding-left: 15px;
+    padding-right: 0;
+    padding-bottom: 4px;
+    /*padding-top: 15px;*/
+    /*padding-top: 0px;*/
+    margin: 0 16.6%;
+    box-sizing: border-box;
+}
+.textAreaColumn div span{
+    display:inline;
+}
+.textAreaColumn div textarea{
+    box-sizing: border-box;
+    width:100%;
+    /*border:3px solid black;*/
+    height:350px;
+    color:#000000;
+    resize: none;
+    outline: none;
+    border: none;
+    padding: 5px 2%;
+}
+</style>
+
+<!-- Filter Button -->
+<style>
+/* Filter Button */
+.btn-container {
+    /*padding: 10px;*/
+    padding-bottom: 144px;
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.btn-container div{
+    padding: 10px;
+    float:left;
+    box-sizing: border-box;
+    width:100%;
+}
+.button-filter {
+    border-radius: 6%; /*3px*/
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 10px 15px; /* 1st is top-bottom, 2nd left-right*/
+    /*text-align: center;*/
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+    margin: 1px 46%; /*18px = inline with left table*/
+    cursor: pointer;
+}
+.button-filter:hover {
+  background-color: #3e8e41;
+}
+</style>
+
+<!-- Clear Button -->
+<style>
+/* Button Group CSS */
+.icon-bar {
+  width: 3%;
+  border-radius: 3px;
+  background-color: #4CAF50;/*#BEBEBE original #555*/
+  overflow: auto;
+  margin-left: 85.7%; /*80%*/
+  display: inline-block;
+}
+.icon-bar a {
+  float: left;
+  width: 100%;
+  text-align: center;
+  padding: 2px 0px;/*2px 0px*/
+  transition: all 0.3s ease;
+  color: white;/*#696969;*/
+  font-size: 15px;
+  display: inline-block;
+}
+.icon-bar a:hover {
+  background-color: #3e8e41; /*Original Black #000*/
+}
+</style>
+
+<!-- Labels -->
+<style>
+/* Labels */
+.label {
+  border-radius: 6%; /*3px*/
+  color: #202020;
+  padding: 1.4%; /*3px*/
+  font-family: Arial;
+}
+.input {background-color: #BEBEBE;}
+p { margin: 2.25% /*14px*/}
+</style>
+
+<!-- Tabulator CSS -->
+<style>
+.tabulator{
+    /*width:400px;*/
+}
+</style>
+
+<!-- Text Area  -->
+<form action = "/chorus_planned" method="POST">
+<div class="textAreaColumn">
+    <div>
+        <p align="center"> <span class="label input">Input Text</span></p>
+        <textarea id="textbox" name="textbox" class="inline-textarea"></textarea>
+    </div>
+    <!-- Line Numbering -->
+   <script>
+   $(".inline-textarea").bcralnit({
+     width: '42px',//42px
+     background: '#FFF',
+     color: '#808080',
+   });
+   </script>
+</div>
+
+<!-- Clear Button -->
+<!-- Bottom Buttons -->
+<div class="container">
+  <div class="icon-bar">
+    <a id="myLink2" onclick="clearText('textbox'); return false;"href="#"><i class="fa fa-trash"></i></a>
+  </div>
+</div>
+
+<!-- Process Button -->
+<div class="btn-container">
+  <div>
+  <button class="button-filter">Process</button>
+  </div>
+</div>
+
+</form>
+<!-- Button Scripts -->
+<script>
+    function clearText(input) {
+       document.getElementById(input).value = "";
+       $("#"+input).focus();
+}
+</script>
+
+<!-- Table -->
+<main role="main" class="container">
+  <h1 align="center">Chorus Planned Network Outages CGW </h1>
+    <div class="container welcome-div">
+      <div id="chorusPlannedTable"></div>
+      <!-- <div class="text-center mt-3">
+        <button class="button btn-lg btn-primary" type="type" name="download" id="download-button">Download Data</button>
+      </div> -->
+    </div>
+</main>
+
+<!-- Tabulator Table -->
+<script type="text/javascript" src="/static/jquery.min.js"></script>
+<script type="text/javascript" src="/static/bootstrap.min.js"></script>
+<script type="text/javascript" src="/static/jquery-ui.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tabulator/3.4.2/js/tabulator.min.js"></script>
+<script type="text/javascript">
+$("#chorusPlannedTable").tabulator({
+      layout:"fitColumns", //fit columns to width of table (optional)
+      //layout:"fitData",
+      tooltips:true, // set tooltips to true or false
+      pagination:"local", //'local' or 'remote'. local loads all the data and then paginate while remote loads upon ajax call
+      paginationSize:18, // number of rows before applying pagination
+      movableColumns:true, // allows columns to be moved around
+      resizableRows:true, // allows rows to be resize'
+      //responsiveLayout:"collapse",
+      //width: 100000,
+      initialSort:[
+        {column:"Start", dir:"start"},
+      ],
+        columns:[ //Define Table Columns
+            {title:"Chorus Ref", field:"ref", sorter:"string"},
+            {title:"CGW Impact", field:"impact",sorter:"string"},
+			{title:"CGW Count", field:"count",sorter:"number"},
+            {title:"List of CGW CIDs", field:"list", formatter:"textarea",sorter:"string"},
+			{title:"Start", field:"start", sorter:"datetime", sorterParams:{format:"DD-MM-YYYY HH:mm:ss"}},
+            {title:"End", field:"end", sorter:"datetime", sorter:"datetime", sorterParams:{format:"DD-MM-YYYY HH:mm:ss"}},
+            {title:"Duration", field:"duration", sorter:"number"},
+			{title:"Reason", field:"reason",formatter:"textarea",sorter:"string"},
+        ],
+    });
+<!-- Strip HTML Function -->
+function stripHTML(input){
+    var out = input.replace(/(<br>|<\/br>|<br \/>)/mgi, "\n").replace("<strong>","").replace("</strong>","").replace("&#58;",":");
+    return out;
+}
+
+ var dataList2 = [];
+ //var test = ["test1", "test", "test1", "08-05-2019 10:31:44", "test1", "test","test1"],["test1", "test", "test1", "08-05-2019 10:31:44", "test1", "test","test1"];
+ var listObject2 = {{ rowList_list2|tojson }};
+ for(var i = 0; i < listObject2.length; i++){
+     dataList2.push({ref: listObject2[i][0], impact:listObject2[i][1], count:listObject2[i][2], list:listObject2[i][3], start: listObject2[i][4] || '-', end:listObject2[i][5] || '-',duration:listObject2[i][6], reason:stripHTML(listObject2[i][7])})
+    }
+    //load sample data into the table
+    //console.log(test);
+    $("#chorusPlannedTable").tabulator("setData", dataList2);
+</script>
+
+<!-- Set Scroll Pos Script -->
+<script>
+    function setScrollTable(){
+        window.scrollTo(0, 650);
+    }
+</script>
+<script>
+    setScrollTable()
+</script>
+
+</body>
+</html>

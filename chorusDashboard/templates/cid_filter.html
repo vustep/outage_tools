@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang ="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<!-- Libraries -->
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="/static/bcralnit.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<div class="topnav">
+  <a href="/chorus_unplanned">Chorus Unplanned</a>
+  <a class="active" href="/cid_filter">CID Filter</a>
+  <a href="/chorus_planned">Chorus Planned</a>
+</div>
+
+<!-- Top Menu Bar CSS -->
+<style>
+.topnav {
+  overflow: hidden;
+  background-color: #383838;
+}
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 1.1% 1.25%; /*14px 16px*/
+  text-decoration: none;
+  font-size: 17px;
+}
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+.topnav a.active {
+  background-color: #4CAF50;
+  color: white;
+}
+</style>
+
+<style>
+.active {
+  background-color: #4CAF50;
+}
+</style>
+
+</head>
+
+<!----------------- BODY -------------------->
+<!-- Body CSS -->
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size:14px;
+}
+</style>
+<body style="background-color:#E0E0E0;">
+
+<!-- Textarea + Div CSS */ -->
+<style>
+.textAreaColumn{
+    width:100%;
+}
+.textAreaColumn div{
+    float:left;
+    width:49.45%; /*49.7*/
+    /*padding:15px; /*7px*/
+    padding-left: 15px;
+    padding-right: 0;
+    padding-bottom: 4px;
+    /*padding-top: 15px;*/
+    /*padding-top: 0px;*/
+    /*margin: 0;*/
+    box-sizing: border-box;
+}
+.textAreaColumn div span{
+    display:inline;
+}
+.textAreaColumn div textarea{
+    box-sizing: border-box;
+    width:100%;
+    /*border:3px solid black;*/
+    height:300px;
+    color:#000000;
+    resize: none;
+    outline: none;
+    border: none;
+    padding: 5px 2%;
+}
+</style>
+
+<!-- Labels -->
+<style>
+    /* Labels */
+.label {
+  border-radius: 6%; /*3px*/
+  color: #202020;
+  padding: 1.4%; /*3px*/
+  font-family: Arial;
+}
+.input {background-color: #BEBEBE;}
+.output {background-color: #BEBEBE;} /* #2196F3 (Blue)*/
+p { margin: 2.25% /*14px*/}
+</style>
+
+<!-- Filter Button -->
+<style>
+/* Filter Button */
+.btn-container {
+    padding: 10px;
+}
+.btn-container div{
+    padding: 10px;
+    float:left;
+    box-sizing: border-box;
+    width:100%;
+}
+.button-filter {
+    border-radius: 6%; /*3px*/
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 10px 20px; /* 1st is top-bottom, 2nd left-right*/
+    /*text-align: center;*/
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+    margin: 1px 46%; /*18px = inline with left table*/
+    cursor: pointer;
+}
+.button-filter:hover {
+  background-color: #3e8e41;
+}
+</style>
+
+<!-- Button Group CSS -->
+<style>
+/* Button Group CSS */
+.icon-bar {
+  width: 4%;
+  border-radius: 3px;
+  background-color: #4CAF50;/*#BEBEBE original #555*/
+  overflow: auto;
+  margin-left: 45.3%; /*44.9%*/
+  display: inline-block;
+}
+.icon-bar a {
+  float: left;
+  width: 50%;
+  text-align: center;
+  padding: 2px 0px;/*2px 0px*/
+  transition: all 0.3s ease;
+  color: white;/*#696969;*/
+  font-size: 15px;
+  display: inline-block;
+}
+.icon-bar a:hover {
+  background-color: #3e8e41; /*Original Black #000*/
+}
+</style>
+
+<form action = "/cid_filter" method="POST">
+
+<div class="textAreaColumn">
+    <div>
+        <p align="center"> <span class="label input">Input Text</span></p>
+        <textarea id="leftOne" name="leftOne" class="inline-textarea"></textarea>
+    </div>
+    <div>
+        <p align="center"><span class="label output">Output Text</span></p>
+        <textarea id="rightOne" name="rightOne" class="inline-textarea" ></textarea>
+    </div>
+    <!-- Line Numbering -->
+   <script>
+   $(".inline-textarea").bcralnit({
+     width: '42px',//42px
+     background: '#FFF',
+     color: '#808080',
+   });
+   </script>
+</div>
+
+<!-- Bottom Buttons -->
+<div class="container">
+  <div class="icon-bar">
+    <a id="mylink1" onclick="copyText('leftOne'); return false; "href="#"><i class="fa fa-copy"></i></a>
+    <a id="myLink2" onclick="clearText('leftOne'); return false;"href="#"><i class="fa fa-trash"></i></a>
+  </div>
+  <div class="icon-bar">
+    <a id="mylink3" onclick="copyText('rightOne'); return false;" href="#"><i class="fa fa-copy"></i></a>
+    <a id="mylink4" onclick="clearText('rightOne'); return false;" href="#"><i class="fa fa-trash"></i></a>
+  </div>
+</div>
+
+<!-- Filter Button -->
+<div class="btn-container">
+  <div>
+  <button class="button-filter"><i class="fa fa-bars"></i>Filter</button>
+  </div>
+</div>
+
+</form>
+
+<!-- Button Scripts -->
+<script>
+    function clearText(input) {
+       document.getElementById(input).value = "";
+       $("#"+input).focus();
+}
+</script>
+<script>
+    function copyText(input) {
+       $("#"+input).select();
+       document.execCommand('copy');
+}
+</script>
+<script>
+    function copy1() {
+       document.getElementById("rightOne").value = "testing input!!!";
+    }
+</script>
+
+<script>
+    var lineTotal = {{ lineTotal|tojson }};
+    var noFilter = {{ text|tojson }}
+    // Print left and right textareas
+    document.getElementById("rightOne").value = lineTotal;
+    document.getElementById("leftOne").value = noFilter;
+    // Focus to get line numbers to appear
+    $("#rightOne").focus();
+    $("#leftOne").focus();
+</script>
+
+</body>
+</html>
