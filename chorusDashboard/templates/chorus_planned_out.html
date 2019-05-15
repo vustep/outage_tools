@@ -3,8 +3,8 @@
 <head>
 
 <!-- Libraries -->
-<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script src="https://unpkg.com/moment"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script type="text/javascript" src="/static/bcralnit.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link href="/static/bootstrap.min.css" rel="stylesheet">
@@ -137,7 +137,7 @@
   border-radius: 3px;
   background-color: #4CAF50;/*#BEBEBE original #555*/
   overflow: auto;
-  margin-left: 85.7%; /*80%*/
+  margin-left: 85.7%; /*85.7%, 80%*/
   display: inline-block;
 }
 .icon-bar a {
@@ -167,14 +167,15 @@
 .input {background-color: #BEBEBE;}
 p { margin: 2.25% /*14px*/}
 </style>
-
-<!-- Tabulator CSS -->
-<style>
-.tabulator{
-    /*width:400px;*/
-}
-</style>
-
+<!-- Tabulator Table CSS -->
+<Style>
+    .tabulator{
+        width:1200px;
+    }
+    .table-container{
+        margin-left: 2%;
+    }
+</Style>
 <!-- Text Area  -->
 <form action = "/chorus_planned" method="POST">
 <div class="textAreaColumn">
@@ -217,16 +218,17 @@ p { margin: 2.25% /*14px*/}
 </script>
 
 <!-- Table -->
-<main role="main" class="container">
+<div class="table-container">
+<!-- <main role="main" class="container"> -->
   <h1 align="center">Chorus Planned Network Outages CGW </h1>
-    <div class="container welcome-div">
+    <!-- <div class="container welcome-div"> -->
       <div id="chorusPlannedTable"></div>
       <!-- <div class="text-center mt-3">
         <button class="button btn-lg btn-primary" type="type" name="download" id="download-button">Download Data</button>
       </div> -->
-    </div>
-</main>
-
+    <!-- </div> -->
+<!-- </main> -->
+</div>
 <!-- Tabulator Table -->
 <script type="text/javascript" src="/static/jquery.min.js"></script>
 <script type="text/javascript" src="/static/bootstrap.min.js"></script>
@@ -244,7 +246,7 @@ $("#chorusPlannedTable").tabulator({
       //responsiveLayout:"collapse",
       //width: 100000,
       initialSort:[
-        {column:"Start", dir:"start"},
+        {column:"Start", dir:"asc"},
       ],
         columns:[ //Define Table Columns
             {title:"Chorus Ref", field:"ref", sorter:"string"},
@@ -252,22 +254,24 @@ $("#chorusPlannedTable").tabulator({
 			{title:"CGW Count", field:"count",sorter:"number"},
             {title:"List of CGW CIDs", field:"list", formatter:"textarea",sorter:"string"},
 			{title:"Start", field:"start", sorter:"datetime", sorterParams:{format:"DD-MM-YYYY HH:mm:ss"}},
-            {title:"End", field:"end", sorter:"datetime", sorter:"datetime", sorterParams:{format:"DD-MM-YYYY HH:mm:ss"}},
+            {title:"End", field:"end", sorter:"datetime", sorterParams:{format:"DD-MM-YYYY HH:mm:ss"}},
             {title:"Duration", field:"duration", sorter:"number"},
-			{title:"Reason", field:"reason",formatter:"textarea",sorter:"string"},
+			{title:"Reason", field:"reason",sorter:"string", formatter:"textarea"},
         ],
     });
 <!-- Strip HTML Function -->
 function stripHTML(input){
-    var out = input.replace(/(<br>|<\/br>|<br \/>)/mgi, "\n").replace("<strong>","").replace("</strong>","").replace("&#58;",":");
+    var out = input.replace(/(<br>|<\/br>|<br \/>)/mgi, "\n").replace(/<strong>|<\/strong>|&#58;/mgi,"");
     return out;
 }
 
  var dataList2 = [];
- //var test = ["test1", "test", "test1", "08-05-2019 10:31:44", "test1", "test","test1"],["test1", "test", "test1", "08-05-2019 10:31:44", "test1", "test","test1"];
+ //var test = ["test1", "test", "test1", "test", "test1", "test","test1"];
  var listObject2 = {{ rowList_list2|tojson }};
+ //console.log(listObject2);
  for(var i = 0; i < listObject2.length; i++){
-     dataList2.push({ref: listObject2[i][0], impact:listObject2[i][1], count:listObject2[i][2], list:listObject2[i][3], start: listObject2[i][4] || '-', end:listObject2[i][5] || '-',duration:listObject2[i][6], reason:stripHTML(listObject2[i][7])})
+     //console.log(stripHTML(listObject2[i][7]));
+     dataList2.push({ref: listObject2[i][0], impact:listObject2[i][1], count:listObject2[i][2], list:listObject2[i][3], start:listObject2[i][4] || '-', end:listObject2[i][5] || '-',duration:listObject2[i][6], reason:stripHTML(listObject2[i][7])})
     }
     //load sample data into the table
     //console.log(test);
