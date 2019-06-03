@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 # Import Libraries
 #from openpyxl import load_workbook
 import csv
@@ -6,9 +8,9 @@ import os
 import urllib
 import cgi
 import re
-import urllib.request
-from urllib.request import urlopen
-from urllib.request import urlretrieve
+#import urllib.request
+#from urllib.request import urlopen
+#from urllib.request import urlretrieve
 import base64
 import uuid
 import http.client
@@ -27,7 +29,7 @@ cgwImpact_list = []
 rowList_list = []
 
 # Current Incident Variables
-#currentCustomer = "-"
+currentCustomer = "-"
 currentEventDuration = "-"
 currentEventStart = "-"
 currentEventEnd = "-"
@@ -38,10 +40,10 @@ currentArea = "-"
 lastUpdate = "-"
 
 # Database setup
-#couch = couchdb.client.Server('http://tailsdb.vocusgroup.co.nz:5984')
-#tailsDB = couch['tails']
-#outageDB = couch['outage']
-#servicesDB = couch['services']
+couch = couchdb.client.Server('http://tailsdb.vocusgroup.co.nz:5984')
+tailsDB = couch['tails']
+outageDB = couch['outage']
+servicesDB = couch['services']
 
 # Chorus Events Overview Pull
 def vocusOverview(event_id):
@@ -359,18 +361,22 @@ def loopImpactsUnplanned():
             ############################
             # Using couchDB
             ############################
-            #rows = tailsDB.view("_design/reconcile/_view/tails_by_service_id", key=currentCID.lower()).rows
-            rows = 1  # for testing without couchDB
-            #currentCustomer = rows[0].value['customer']['name']
-            #if len(rows) >= 1:
-            if rows >= 1:
+            rows = tailsDB.view("_design/reconcile/_view/tails_by_service_id", key=currentCID.lower()).rows
+            #rows = 1  # for testing without couchDB
+            # Checking for customer name
+            if len(rows) > 0:
+                currentCustomer = rows[0].value['customer']['name']
+
+            if len(rows) >= 1:
+            #if rows >= 1:
                CGW = True
                currentCGWImpact_List.append(id)
                CGW_Count += 1
                #break  # break out of for loop if CID found
 
                ## Create row object(list of list))
-               row = ("test cust", currentCID, currentStatus, currentEventStart, currentEventEnd, currentEventDuration, currentArea, event)
+               #row = ("test cust", currentCID, currentStatus, currentEventStart, currentEventEnd, currentEventDuration, currentArea, event)
+               row = (currentCustomer, currentCID, currentStatus, currentEventStart, currentEventEnd, currentEventDuration, currentArea, event)
                rowList_list.append(row)
                #print(row)
 

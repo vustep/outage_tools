@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 # Import Libraries
 #from openpyxl import load_workbook
 import csv
@@ -37,10 +39,10 @@ currentStatus = "-"
 currentArea = "-"
 
 # Database setup
-#couch = couchdb.client.Server('http://tailsdb.vocusgroup.co.nz:5984')
-#tailsDB = couch['tails']
-#outageDB = couch['outage']
-#servicesDB = couch['services']
+couch = couchdb.client.Server('http://tailsdb.vocusgroup.co.nz:5984')
+tailsDB = couch['tails']
+outageDB = couch['outage']
+servicesDB = couch['services']
 
 # Chorus Events Overview Pull
 def vocusOverview(event_id):
@@ -320,11 +322,10 @@ def loopImpacts():
             ############################
             # Using couchDB
             ############################
-            #rows = tailsDB.view("_design/reconcile/_view/tails_by_service_id", key=currentCID.lower()).rows
-            rows = 1  # for testing without couchDB
+            rows = tailsDB.view("_design/reconcile/_view/tails_by_service_id", key=currentCID.lower()).rows
+            #rows = 1  # for testing without couchDB
             #currentCustomer = rows[0].value['customer']['name']
-            #if len(rows) >= 1:
-            if rows >= 1:
+            if len(rows) >= 1:
                CGW = True
                currentCGWImpact_List.append(id)
                CGW_Count += 1
