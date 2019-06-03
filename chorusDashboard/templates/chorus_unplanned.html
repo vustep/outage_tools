@@ -15,14 +15,24 @@
 </head>
 
 <!-- <body style="padding-top: 5rem;"> -->
+<body style="padding-top: 0rem;">
 
-<!-- test start -->
 <style>
 body {
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
 }
+/* Container CSS */
+.container{
+    max-width: 2000px;
+}
 
+/* Tabulator CSS */
+.tabulator{
+    width: 100%;
+}
+
+/* Top Nav CSS */
 .topnav {
   overflow: hidden;
   background-color: #333;
@@ -45,44 +55,19 @@ body {
 }
 
 </style>
-<!-- test end -->
+
 <div class="container">
-<!-- <main role="main" class="container"> -->
   <h1 align="center">Chorus Unplanned Network Outages CGW </h1>
-     <!-- <div class="container welcome-div"> -->
       <div id="chorusUnplannedTable"></div>
-      <caption align="right">Last Update: {{ lastUpdate1 }} </caption>
-     <!-- </div> -->
-<!-- </main> -->
+          <caption align="right">Last Update: {{ lastUpdate1 }} </caption>
 </div>
+<!-- </main> -->
 
  <script type="text/javascript" src="/static/jquery.min.js"></script>
- <script src="https://unpkg.com/moment"></script>
  <script type="text/javascript" src="/static/bootstrap.min.js"></script>
  <script type="text/javascript" src="/static/jquery-ui.min.js"></script>
  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tabulator/3.4.2/js/tabulator.min.js"></script>
-<!-- Tabulator CSS -->
-<style>
-    .tabulator{
-     width:1210px;
-}
-    .main{
-        /*padding-left: 0;*/
-        margin-left: 0;
-    }
-    .container{
-        padding-left: 0;
-        margin-left: 2%;
-    }
-    .container welcome-div{
-        /*padding-left: 0;*/
-        margin-left: 0;
-    }
-    .chorusUnplannedTable{
-        padding-left: 0;
-    }
-</style>
-<script type="text/javascript">
+ <script type="text/javascript">
  $("#chorusUnplannedTable").tabulator({
       layout:"fitColumns", //fit columns to width of table (optional)
       //layout:"fitData",
@@ -93,28 +78,29 @@ body {
       resizableRows:true, // allows rows to be resize'
       //responsiveLayout:"collapse",
       initialSort:[
-        {column:"start", dir: "asc"},
+        {column:"Start", dir:"start"},
       ],    
         columns:[ //Define Table Columns
             //{title:"Customer", field:"cust", formatter:"textarea", minWidth:"200"},
-            {title:"Customer", field:"cust", sorter:"string"},
-            {title:"Circuit ID", field:"cid",sorter:"string"},
-			{title:"Status", field:"stat",sorter:"string"},
-            {title:"Start", field:"start", align:"left", sorter:"datetime", sorterParams:{format:"DD-MM-YYYY HH:mm:ss"}},
-			{title:"End", field:"end", sorter:"datetime", sorterParams:{format:"DD-MM-YYYY HH:mm:ss"}},
+            {title:"Customer", field:"cust", sorter:"String"},
+            {title:"Circuit ID", field:"cid",sorter:"String"},
+			{title:"Status", field:"stat",sorter:"String"},
+            {title:"Start", field:"start", align:"left", sorter:"datetime"},
+            //{title:"Start", field:"start", align:"left", formatter:"progress"},
+			{title:"End", field:"end", sorter:"datetime"},
             {title:"Duration", field:"dur"},
-            {title:"Area", field:"loc", sorter:"string"},
-			{title:"Reference", field:"ref",sorter:"string"},
+            {title:"Area", field:"loc", sorter:"String"},
+			{title:"Reference", field:"ref",sorter:"String"},
         ],        
     });
- var rowList = [];
+ var test = [];
  var listObject = {{ rowList_list|tojson }};
  //console.log(listObject);
  for(var i = 0; i < listObject.length; i++){
-        rowList.push({cust: listObject[i][0], cid:listObject[i][1], stat:listObject[i][2], start:listObject[i][3], end:listObject[i][4] || '-', dur:listObject[i][5] || '-',loc:listObject[i][6], ref:listObject[i][7]})
+        test.push({cust: listObject[i][0], cid:listObject[i][1], stat:listObject[i][2], start:listObject[i][3], end:listObject[i][4] || '-', dur:listObject[i][5] || '-',loc:listObject[i][6], ref:listObject[i][7]})
     }
     //load sample data into the table
-      $("#chorusUnplannedTable").tabulator("setData", rowList);
+      $("#chorusUnplannedTable").tabulator("setData", test);
     </script>
     <!-- Script for auto page reload-->
     <!-- <script>

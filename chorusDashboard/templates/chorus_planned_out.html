@@ -7,7 +7,7 @@
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script type="text/javascript" src="/static/bcralnit.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link href="/static/bootstrap.min.css" rel="stylesheet">
+<!-- <link href="/static/bootstrap.min.css" rel="stylesheet"> -->
 <link href="/static/jquery-ui.min.css" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/tabulator/3.4.2/css/tabulator.min.css" rel="stylesheet">
 
@@ -72,7 +72,7 @@
     width:66.6%; /*49.7*/
     /*padding:15px; /*7px*/
     padding-left: 15px;
-    padding-right: 0;
+    padding-right: 15px;
     padding-bottom: 4px;
     /*padding-top: 15px;*/
     /*padding-top: 0px;*/
@@ -97,7 +97,6 @@
 
 <!-- Filter Button -->
 <style>
-/* Filter Button */
 .btn-container {
     /*padding: 10px;*/
     padding-bottom: 144px;
@@ -121,7 +120,7 @@
     text-decoration: none;
     display: inline-block;
     font-size: 20px;
-    margin: 1px 46%; /*18px = inline with left table*/
+    margin: 1px 47.5%; /*18px = inline with left table*/
     cursor: pointer;
 }
 .button-filter:hover {
@@ -129,15 +128,21 @@
 }
 </style>
 
+<!-- Container CSS -->
+<style>
+.container{
+ margin-left: 0;
+ /*margin-right: 0;*/
+}
+</style>
 <!-- Clear Button -->
 <style>
-/* Button Group CSS */
 .icon-bar {
   width: 3%;
   border-radius: 3px;
   background-color: #4CAF50;/*#BEBEBE original #555*/
   overflow: auto;
-  margin-left: 85.7%; /*85.7%, 80%*/
+  margin-left: 79.5%; /*85.7%, 80%*/
   display: inline-block;
 }
 .icon-bar a {
@@ -157,7 +162,6 @@
 
 <!-- Labels -->
 <style>
-/* Labels */
 .label {
   border-radius: 6%; /*3px*/
   color: #202020;
@@ -170,10 +174,11 @@ p { margin: 2.25% /*14px*/}
 <!-- Tabulator Table CSS -->
 <Style>
     .tabulator{
-        width:1200px;
+        width: 100%;
     }
     .table-container{
         margin-left: 2%;
+        margin-right: 2%;
     }
 </Style>
 <!-- Text Area  -->
@@ -219,15 +224,8 @@ p { margin: 2.25% /*14px*/}
 
 <!-- Table -->
 <div class="table-container">
-<!-- <main role="main" class="container"> -->
   <h1 align="center">Chorus Planned Network Outages CGW </h1>
-    <!-- <div class="container welcome-div"> -->
       <div id="chorusPlannedTable"></div>
-      <!-- <div class="text-center mt-3">
-        <button class="button btn-lg btn-primary" type="type" name="download" id="download-button">Download Data</button>
-      </div> -->
-    <!-- </div> -->
-<!-- </main> -->
 </div>
 <!-- Tabulator Table -->
 <script type="text/javascript" src="/static/jquery.min.js"></script>
@@ -264,7 +262,6 @@ function stripHTML(input){
     var out = input.replace(/(<br>|<\/br>|<br \/>)/mgi, "\n").replace(/<strong>|<\/strong>|&#58;/mgi,"");
     return out;
 }
-
  var dataList2 = [];
  //var test = ["test1", "test", "test1", "test", "test1", "test","test1"];
  var listObject2 = {{ rowList_list2|tojson }};
