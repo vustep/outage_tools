@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Chorus Unplanned CGW</title>
+    <link href="/static/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/jquery-ui.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tabulator/3.4.2/css/tabulator.min.css" rel="stylesheet">
+<!-- Top Nav -->
+<div class="topnav">
+  <a class="active" href="/chorus_unplanned">Chorus Unplanned</a>
+  <a href="/cid_filter">CID Filter</a>
+  <a href="/chorus_planned">Chorus Planned</a>
+</div>
+</head>
+
+<!-- <body style="padding-top: 5rem;"> -->
+<body style="padding-top: 0rem;">
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+/* Container CSS */
+.container{
+    max-width: 2000px;
+}
+
+/* Tabulator CSS */
+.tabulator{
+    width: 100%;
+}
+
+/* Top Nav CSS */
+.topnav {
+  overflow: hidden;
+  background-color: #333;
+}
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+.topnav a.active {
+  background-color: #4CAF50;
+  color: white;
+}
+
+</style>
+
+<div class="container">
+  <h1 align="center">Chorus Unplanned Network Outages CGW </h1>
+      <div id="chorusUnplannedTable"></div>
+          <caption align="right">Last Update: {{ lastUpdate1 }} </caption>
+</div>
+<!-- </main> -->
+
+ <script type="text/javascript" src="/static/jquery.min.js"></script>
+ <script type="text/javascript" src="/static/bootstrap.min.js"></script>
+ <script type="text/javascript" src="/static/jquery-ui.min.js"></script>
+ <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tabulator/3.4.2/js/tabulator.min.js"></script>
+ <script type="text/javascript">
+ $("#chorusUnplannedTable").tabulator({
+      layout:"fitColumns", //fit columns to width of table (optional)
+      //layout:"fitData",
+      tooltips:true, // set tooltips to true or false   
+      pagination:"local", //'local' or 'remote'. local loads all the data and then paginate while remote loads upon ajax call
+      paginationSize:18, // number of rows before applying pagination
+      movableColumns:true, // allows columns to be moved around
+      resizableRows:true, // allows rows to be resize'
+      //responsiveLayout:"collapse",
+      initialSort:[
+        {column:"Start", dir:"start"},
+      ],    
+        columns:[ //Define Table Columns
+            //{title:"Customer", field:"cust", formatter:"textarea", minWidth:"200"},
+            {title:"Customer", field:"cust", sorter:"String"},
+            {title:"Circuit ID", field:"cid",sorter:"String"},
+			{title:"Status", field:"stat",sorter:"String"},
+            {title:"Start", field:"start", align:"left", sorter:"datetime"},
+            //{title:"Start", field:"start", align:"left", formatter:"progress"},
+			{title:"End", field:"end", sorter:"datetime"},
+            {title:"Duration", field:"dur"},
+            {title:"Area", field:"loc", sorter:"String"},
+			{title:"Reference", field:"ref",sorter:"String"},
+        ],        
+    });
+ var test = [];
+ var listObject = {{ rowList_list|tojson }};
+ //console.log(listObject);
+ for(var i = 0; i < listObject.length; i++){
+        test.push({cust: listObject[i][0], cid:listObject[i][1], stat:listObject[i][2], start:listObject[i][3], end:listObject[i][4] || '-', dur:listObject[i][5] || '-',loc:listObject[i][6], ref:listObject[i][7]})
+    }
+    //load sample data into the table
+      $("#chorusUnplannedTable").tabulator("setData", test);
+    </script>
+    <!-- Script for auto page reload-->
+    <!-- <script>
+        setTimeout(function() {
+          location.reload();
+        }, 30000); // ms
+    </script>
+    -->
+</body>
+</html>
